@@ -112,3 +112,56 @@ var firebaseConfig = {
     firebase.auth().signOut();
     
   });
+
+
+  $("#btn-update").click(function()
+  {
+    var phone= $("#phone").val();
+    var address= $("#address").val();
+    var bio= $("#bio").val();
+    var fName= $("#firstName").val();
+    var sName= $("#secondName").val();
+    var country= $("#country").val();
+    var gender= $("#gender").val();
+
+    var rootRef = firebase.database().ref().child("Users");
+    var userID = firebase.auth().currentUser.uid;
+    var usersRef= rootRef.child(userID);
+    
+    if(fName!="" && sName!="" && phone!=""  && country!="" && gender!="" && bio!="" && address!="")
+    {
+      var userData =
+      {
+        "phone":phone,
+        "address ": address,
+        "bio": bio,
+        "firstName":firstName,
+        "secondName": secondName,
+        "country":country,
+        "gender": gender,
+      };
+      usersRef.set(userData, function(error)
+      {
+        if(error)
+        {
+
+          var errorCode = error.code;
+          var errorMessage = error.message;
+
+          console.log(errorCode);
+          console.log(errorMessage);
+
+          window.alert("Message:" + errorMessage);
+        }
+        else
+        {
+          window.location.href= "mainPage.html";
+        }
+      });
+    }
+    else
+    {
+      window.alert("Formis incomplete. Please fill out all fiels" );
+    }
+
+  });

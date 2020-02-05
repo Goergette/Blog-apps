@@ -61,7 +61,21 @@
         {
             if(user)
             {
-                window.location.href="mainPage.html";
+                var userID = firebase.auth().currentUser.uid;
+
+                firebase.database().ref('Users/ '+ userID).once('value').then(function(snapshot){
+                    if(snapshot.val())
+                    {
+                        window.location.href="mainPage.html";
+            
+                    }
+                    else
+                    {
+                        window.location.href="accountSetting.html";
+                    }
+                    
+                });
+
             }
         });
     </script>
